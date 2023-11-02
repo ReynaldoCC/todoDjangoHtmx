@@ -40,9 +40,9 @@ Removes completed todos when clicked. Should be hidden when there are no complet
 
 ##### Get the code
 
-Clone this repository or download it from [Github]()
+Clone this repository or download it from [Github](https://github.com/ReynaldoCC/todoDjangoHtmx/archive/refs/heads/main.zip)
 
-    git clone 
+    git clone https://github.com/ReynaldoCC/todoDjangoHtmx.git
 
 
 ##### Install requirements
@@ -58,9 +58,9 @@ For use or production install the production requirements
 
 ##### Get the code
 
-Clone this repository or download it from [Github]()
+Clone this repository or download it from [Github](https://github.com/ReynaldoCC/todoDjangoHtmx/archive/refs/heads/main.zip)
 
-    git clone 
+    git clone https://github.com/ReynaldoCC/todoDjangoHtmx.git
 
 
 ## Credit
