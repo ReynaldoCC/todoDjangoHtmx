@@ -1,5 +1,6 @@
-from django.views.generic import ListView, CreateView
+from django.views.generic import ListView, CreateView, DeleteView, UpdateView
 from django.views.generic.base import TemplateResponseMixin
+from django.views.generic.edit import ProcessFormView
 
 from todo.models import Todo
 
@@ -47,5 +48,20 @@ class CreationTodoView(HtmxResponseMixin, CreateView):
         form.save()
         context = {
             'todos': Todo.objects.all(),
+        }
+        return self.render_to_response(context)
+
+
+class DeleteTodoView(HtmxResponseMixin, DeleteView):
+    htmx_template_name = 'todo/partials/todo-app.html'
+    model = Todo
+    context_object_name = 'todo'
+
+    def delete(self, request, *args, **kwargs):
+        todo = self.get_object()
+        todo.delete()
+        context = {
+            'todos': Todo.objects.all(),
+            'checked': Todo.objects.filter(completed=True).count()
         }
         return self.render_to_response(context)
