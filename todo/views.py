@@ -65,3 +65,14 @@ class DeleteTodoView(HtmxResponseMixin, DeleteView):
             'checked': Todo.objects.filter(completed=True).count()
         }
         return self.render_to_response(context)
+
+
+class UpdateTodoView(HtmxResponseMixin, UpdateView):
+    htmx_template_name = 'todo/partials/todo-item.html'
+    model = Todo
+    context_object_name = 'todo'
+    fields = ['title']
+
+    def form_valid(self, form):
+        todo = form.save()
+        return self.render_to_response({'todo': todo})
