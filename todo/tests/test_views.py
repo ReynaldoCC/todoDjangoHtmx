@@ -48,10 +48,9 @@ class TodoCreateTestCase(LiveServerTestCase):
             item_created = WebDriverWait(self.driver, 5).until(
                 EC.element_to_be_clickable((By.ID, 'item-1'))
             )
-        except NoSuchElementException as _:
-            pass
-        else:
-            self.assertIsNotNone(item_created)
+        except NoSuchElementException:
+            item_created = None
+        self.assertIsNotNone(item_created)
 
 
 class TodoUpdateTestCase(LiveServerTestCase):
@@ -205,5 +204,3 @@ class ClearTodoCompleteViewTestCase(TestCase):
         self.assertIn('checked', response.context_data)
         self.assertIn('todos', response.context_data)
         self.assertEqual(remaining_expected_todos, len(response.context_data.get('todos')))
-
-
