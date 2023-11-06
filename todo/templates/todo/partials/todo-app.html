@@ -60,7 +60,16 @@
         <!-- Hidden if no completed items are left ↓ -->
         <button class="clear-completed"
                 hx-target=".todoapp"
+                hx-swap="outerHTML"
                 hx-post="{% url 'del_done_todo' %}"
-                hx-trigger="click">Clear completed</button>
+                hx-trigger="click"
+                _="on htmx:confirm(issueRequest)
+                     halt the event
+                     call Swal.fire({title: 'Confirm',
+                                     showCancelButton: true,
+                                     confirmButtonText: 'Yes',
+                                     cancelButtonText: 'No, cancel!',
+                                     text: 'Are you sure you want to delete all complete todos.'})
+                     if result.isConfirmed issueRequest()">Clear completed</button>
     </footer>
 </section>
