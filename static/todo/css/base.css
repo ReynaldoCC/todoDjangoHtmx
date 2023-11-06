@@ -1,4 +1,4 @@
-@charset 'utf-8';
+@charset "utf-8";
 
 html,
 body {
@@ -131,9 +131,13 @@ body {
 	top: -65px;
 	left: -0;
 }
-
-.toggle-all + label:before {
+input.toggle-all[type=checkbox]:checked ~ label:before {
 	content: '❯';
+	color: green;
+	-webkit-transform: rotate(270deg);
+	transform: rotate(270deg);
+}
+.toggle-all + label:before {
 	display: inline-block;
 	font-size: 22px;
 	color: #949494;
@@ -141,11 +145,6 @@ body {
 	-webkit-transform: rotate(90deg);
 	transform: rotate(90deg);
 }
-
-.toggle-all:checked + label:before {
-	color: #484848;
-}
-
 .todo-list {
 	margin: 0;
 	padding: 0;
@@ -220,7 +219,7 @@ body {
 	color: #484848;
 }
 
-.todo-list li.completed label {
+.todo-list li .completed label {
 	color: #949494;
 	text-decoration: line-through;
 }
