@@ -1,0 +1,37 @@
+{% load static  %}
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>ToDo App</title>
+		<link rel="stylesheet" href="{% static 'todo/css/base.css' %}">
+		<link rel="stylesheet" href="{% static 'todo/css/index.css' %}">
+		<!-- CSS overrides - remove if you don't need it -->
+		<link rel="stylesheet" href="{% static 'todo/css/custom.css' %}">
+        <link rel="shortcut icon" href="{% static 'todo/img/todo.ico' %}" type="image/x-icon">
+        <script src="https://unpkg.com/hyperscript.org@0.9.6"></script>
+        <script src="https://unpkg.com/htmx.org@1.9.6"></script>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+	</head>
+	<body>
+    {% block app_content %}
+
+    {% endblock app_content %}
+		<footer class="info">
+			<p>Double-click to edit a todo</p>
+			<!-- Remove the below line ↓ -->
+			<p>Template by <a href="http://sindresorhus.com">Sindre Sorhus</a></p>
+			<!-- Change this out with your name and url ↓ -->
+			<p>Created by <a href="http://todomvc.com">you</a></p>
+			<p>Part of <a href="http://todomvc.com">TodoMVC</a></p>
+		</footer>
+		<!-- Scripts here. Don't remove ↓ -->
+
+        <script>
+            document.body.addEventListener('htmx:configRequest', (event) => {
+                event.detail.headers['X-CSRFToken'] = '{{ csrf_token }}';
+            })
+        </script>
+	</body>
+</html>
