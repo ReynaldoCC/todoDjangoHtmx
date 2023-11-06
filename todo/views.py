@@ -76,3 +76,17 @@ class UpdateTodoView(HtmxResponseMixin, UpdateView):
     def form_valid(self, form):
         todo = form.save()
         return self.render_to_response({'todo': todo})
+
+
+class ToggleCompleteView(HtmxResponseMixin, UpdateView):
+    htmx_template_name = 'todo/partials/todo-app.html'
+    model = Todo
+    fields = ['completed']
+
+    def put(self, request, *args, **kwargs):
+        todo = self.get_object()
+        todo.completed = not todo.completed
+        todo.save()
+        context = {'todos': Todo.objects.all(),
+                   'checked': Todo.objects.filter(completed=True).count()}
+        return self.render_to_response(context=context)
