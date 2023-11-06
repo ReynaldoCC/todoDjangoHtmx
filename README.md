@@ -46,6 +46,11 @@ Clone this repository or download it from [Github](https://github.com/ReynaldoCC
 
 
 ##### Install requirements
+Create virtual environment for app requirements and activate it
+
+    python -m venv todo -p python3
+    source todo/bin/activate
+
 For development install the development requirements
 
     pip install -r requirements/dev.txt
@@ -53,6 +58,16 @@ For development install the development requirements
 For use or production install the production requirements
 
     pip install -r requirements.txt
+
+#### run the app
+
+Run the app using Django development server
+
+    python manange.py runserver
+
+Using gunicorn(needs to install production requirements)
+
+    gunicorn config.wsgi:application --bind 0.0.0.0:8000
 
 ### Using Docker
 
@@ -62,6 +77,16 @@ Clone this repository or download it from [Github](https://github.com/ReynaldoCC
 
     git clone https://github.com/ReynaldoCC/todoDjangoHtmx.git
 
+Using Docker you can run the app using docker as it, typing command run
+
+    cd todoDjangoHtmx
+    docker build .
+    docker run -e DJANGO_SECRECT_KEY=yournewsecrectkey -p 8000:8000
+
+Or even you can run it with docker-compose
+
+    cd todoDjangoHtmx
+    docker-compose up
 
 ## Credit
 
