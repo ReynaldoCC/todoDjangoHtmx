@@ -1,0 +1,15 @@
+version: '3.6'
+
+services:
+        todoapp:
+                extends:
+                        file: ./docker-compose-core.yml
+                        service: todoapp
+                container_name: todoapp
+                env_file:
+                        - ./env.prod
+                volumes:
+                        - todo_static:/home/todo_app/web/static/
+
+volumes:
+        todo_static:
