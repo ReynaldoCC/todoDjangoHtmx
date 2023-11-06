@@ -1,3 +1,38 @@
-from django.shortcuts import render
+from django.views.generic import ListView
+from django.views.generic.base import TemplateResponseMixin
+
+from todo.models import Todo
+
 
 # Create your views here.
+class HtmxResponseMixin(TemplateResponseMixin):
+    htmx_template_name = None
+
+    def get_template_names(self):
+        if self.request.htmx and self.htmx_template_name:
+            return [self.htmx_template_name]
+        return super().get_template_names()
+
+
+class TodoListView(HtmxResponseMixin, ListView):
+    htmx_template_name = 'todo/partials/todo-app.html'
+    template_name = 'todo/index.html'
+    model = Todo
+    context_object_name = 'todos'
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        filtered = self.request.GET.get('filters')
+        filtered_by = filtered if filtered else ''
+        self.extra_context = {
+            'filter': filtered_by,
+            'checked': Todo.objects.filter(completed=True).count()
+        }
+        return super().get_context_data(object_list=None, **kwargs)
+
+    def get_queryset(self):
+        if 'filters' in self.request.GET:
+            filter_string = self.request.GET.get('filters')
+            filter_qs = {filter_string.split('=')[0]: filter_string.split('=')[-1]} if '=' in filter_string else {}
+            qs = super().get_queryset()
+            return qs.filter(**filter_qs)
+        return super().get_queryset()
