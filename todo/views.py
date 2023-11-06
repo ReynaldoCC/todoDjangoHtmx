@@ -1,4 +1,4 @@
-from django.views.generic import ListView
+from django.views.generic import ListView, CreateView
 from django.views.generic.base import TemplateResponseMixin
 
 from todo.models import Todo
@@ -36,3 +36,16 @@ class TodoListView(HtmxResponseMixin, ListView):
             qs = super().get_queryset()
             return qs.filter(**filter_qs)
         return super().get_queryset()
+
+
+class CreationTodoView(HtmxResponseMixin, CreateView):
+    htmx_template_name = 'todo/partials/todo-app.html'
+    model = Todo
+    fields = ['title']
+
+    def form_valid(self, form):
+        form.save()
+        context = {
+            'todos': Todo.objects.all(),
+        }
+        return self.render_to_response(context)
