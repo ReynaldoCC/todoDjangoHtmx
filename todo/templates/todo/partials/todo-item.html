@@ -1,0 +1,29 @@
+    <input id="id_id_{{ todo.id }}" name="id" type="hidden" value="{{ todo.id }}">
+    <div class="list-item-{{ todo.id }} view{% if todo.completed %} completed{% endif %}">
+        <input name="completed"
+               class="toggle"
+               type="checkbox" {% if todo.completed %}checked{% endif %}
+               hx-put="{% url 'toggle_todo' todo.id %}"
+               hx-target=".todoapp"
+               hx-trigger="change">
+        <label class="title" _="on dblclick toggle between .view and .edit on .list-item-{{ todo.id }}" >{{ todo.title|capfirst }}</label>
+        <button class="destroy"
+                hx-delete="{% url 'remove_todo' todo.pk %}"
+                hx-trigger="click"
+                hx-swap="outerHTML"
+                hx-target=".todoapp"
+                _="on htmx:confirm(issueRequest)
+                     halt the event
+                     call Swal.fire({title: 'Confirm',
+                                     showCancelButton: true,
+                                     confirmButtonText: 'Yes',
+                                     cancelButtonText: 'No, cancel!',
+                                     text: 'Are you sure you want to delete todo \'{{ todo.title|truncatechars:20 }}\''})
+                     if result.isConfirmed issueRequest()"></button>
+    </div>
+    <div class="list-item-{{ todo.id }} edit">
+        <form action="post" hx-post="{% url 'update_todo' todo.id %}" hx-trigger="submit" hx-target="#item-{{ todo.id }}">
+            {% csrf_token %}
+            <input id="id_title_{{ todo.id }}" name="title" class="todo-input" value="{{ todo.title }}">
+        </form>
+    </div>

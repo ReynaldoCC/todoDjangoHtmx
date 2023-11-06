@@ -1,0 +1,66 @@
+<section class="todoapp" >
+    <header class="header">
+        <form hx-post="{% url 'create_todo' %}"
+              hx-trigger="submit"
+              hx-target=".todoapp"
+              hx-swap="outerHTML"
+              hx-push-url="{% url 'todo_list' %}"
+              hx-on::after-request="this.reset()">
+            {% csrf_token %}
+            <h1>todos</h1>
+            <input name="title" class="new-todo" placeholder="What needs to be done?" autofocus required>
+        </form>
+    </header>
+    <!-- This section should be hidden by default and shown when there are todos -->
+    <section class="main" id="todo-section">
+        <input id="toggle-all"
+               class="toggle-all"
+               type="checkbox"
+               name="toggle-all"
+               hx-post="{% url 'toggle_all_todo' %}"
+               hx-target=".todo-list"
+               hx-trigger="change"
+        {% if todos|length == checked %}checked{% endif %}>
+        <label for="toggle-all">Mark all as complete</label>
+        <ul class="todo-list">
+            {% include 'todo/partials/todo-list.html' %}
+        </ul>
+    </section>
+    <!-- This footer should be hidden by default and shown when there are todos -->
+    <footer class="footer">
+        <!-- This should be `0 items left` by default -->
+        <span class="todo-count"><strong>{{ todos|length }} </strong> item{{ todos|pluralize }} left</span>
+        <!-- Remove this if you don't implement routing -->
+        <ul class="filters">
+            <li>
+                <a {% if filter == '' %}class="selected" {% endif %}
+                   href="#"
+                   hx-get="{% url 'todo_list' %}"
+                   hx-trigger="click"
+                   hx-target=".todoapp"
+                   hx-push-url="{% url 'todo_list' %}">All</a>
+            </li>
+            <li>
+                <a {% if filter == 'completed=0' %}class="selected" {% endif %}
+                   href="#"
+                   hx-get="{% url 'todo_list' %}?filters=completed=0"
+                   hx-trigger="click"
+                   hx-target=".todoapp"
+                   hx-push-url="{% url 'todo_list' %}">Active</a>
+            </li>
+            <li>
+                <a {% if filter == 'completed=1' %}class="selected" {% endif %}
+                   href="#"
+                   hx-get="{% url 'todo_list' %}?filters=completed=1"
+                   hx-trigger="click"
+                   hx-target=".todoapp"
+                   hx-push-url="{% url 'todo_list' %}">Completed</a>
+            </li>
+        </ul>
+        <!-- Hidden if no completed items are left ↓ -->
+        <button class="clear-completed"
+                hx-target=".todoapp"
+                hx-post="{% url 'del_done_todo' %}"
+                hx-trigger="click">Clear completed</button>
+    </footer>
+</section>

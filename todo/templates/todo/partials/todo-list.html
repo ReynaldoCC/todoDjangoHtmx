@@ -1,0 +1,14 @@
+
+        <!-- These are here just to show the structure of the list items -->
+        <!-- List items should get the class `editing` when editing and `completed` when marked as completed -->
+        {% for todo in todos %}
+            <li id="item-{{ todo.id }}">
+                {% include 'todo/partials/todo-item.html' %}
+            </li>
+        {% empty %}
+            <li>
+                <div class="view">
+                    <label>There are no todos</label>
+                </div>
+            </li>
+        {% endfor %}
