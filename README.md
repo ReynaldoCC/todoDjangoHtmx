@@ -1,7 +1,8 @@
+<div style="text-align: center">
 <center><img src="./static/todo/img/todo.ico" width="90"> </center>
 
 # Django + HTMx • [TodoApp](http://todomvc.com)
-
+</div>
 > Django is a high-level Python web framework that encourages rapid development and clean, pragmatic design. Built by experienced developers, it takes care of much of the hassle of web development, so you can focus on writing your app without needing to reinvent the wheel. It’s free and open source.
 
 > htmx gives you access to AJAX, CSS Transitions, WebSockets and Server Sent Events directly in HTML, using attributes, so you can build modern user interfaces with the simplicity and power of hypertext
