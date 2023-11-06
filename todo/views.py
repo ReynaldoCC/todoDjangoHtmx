@@ -90,3 +90,28 @@ class ToggleCompleteView(HtmxResponseMixin, UpdateView):
         context = {'todos': Todo.objects.all(),
                    'checked': Todo.objects.filter(completed=True).count()}
         return self.render_to_response(context=context)
+
+
+class ToggleAllTodoView(HtmxResponseMixin, ProcessFormView):
+    htmx_template_name = 'todo/partials/todo-list.html'
+
+    def post(self, request, *args, **kwargs):
+        value = bool(request.POST.get('toggle-all', False))
+        Todo.objects.all().update(completed=value)
+        context = {
+            'todos': Todo.objects.all(),
+            'checked': Todo.objects.filter(completed=True).count()
+        }
+        return self.render_to_response(context=context)
+
+
+class RemoveCompletedView(HtmxResponseMixin, ProcessFormView):
+    htmx_template_name = 'todo/partials/todo-app.html'
+
+    def post(self, request, *args, **kwargs):
+        Todo.objects.filter(completed=True).delete()
+        context = {
+            'todos': Todo.objects.all(),
+            'checked': 0
+        }
+        return self.render_to_response(context=context)
