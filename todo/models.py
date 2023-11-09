@@ -8,7 +8,7 @@ class Todo(models.Model):
     completed = models.BooleanField(verbose_name=_('Completed'), default=False, blank=True)
 
     class Meta:
-        ordering = ('title', 'completed')
+        ordering = ('title', )
 
     def __str__(self):
         return self.title
